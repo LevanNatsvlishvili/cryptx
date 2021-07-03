@@ -6,6 +6,7 @@ const FolderTree = (props) => {
 
   const renderTree = (nodes) => {
     return nodes.map((node) => {
+      console.log(node);
       return (
         <Item
           key={node.id}

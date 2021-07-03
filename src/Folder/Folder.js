@@ -5,20 +5,20 @@ import FolderNew from "./FolderNew/";
 
 const Folder = () => {
   const [opts, setOpts] = useState([]);
-  const [branches, setBranches] = useState(7);
+  const [branches, setBranches] = useState(8);
   const [tree, setTree] = useState([
     {
       id: '0', label: 'Tree 1', type: 'folder', subTree: [
-        { id: '3', label: 'Tree 3', type: 'file' },
+        { id: '2', label: 'Tree 3', type: 'file' },
         {
-          id: '4', label: 'Tree 4', type: 'folder', subTree: [
-            { id: '7', label: 'Tree 7', type: 'file' },
+          id: '3', label: 'Tree 4', type: 'folder', subTree: [
+            { id: '4', label: 'Tree 5', type: 'file', subTree: [] },
           ]
         },
         {
-          id: '5', label: 'Tree 5', type: 'folder', subTree: [
-            { id: '6', label: 'Tree 6', type: 'file' },
-            { id: '7', label: 'Tree 7', type: 'folder', subTree: [] },
+          id: '5', label: 'Tree 6', type: 'folder', subTree: [
+            { id: '6', label: 'Tree 7', type: 'file' },
+            { id: '7', label: 'Tree 8', type: 'folder', subTree: [] },
           ]
         },
       ]
@@ -28,15 +28,16 @@ const Folder = () => {
 
   const countId = () => {
     setBranches(branches + 1);
+    console.log(branches);
   }
 
 
 
   const insertBranch = (nodes, id, newValue) => {
-    nodes.map((node) => {
+    if (Array.isArray(nodes)) nodes.map((node) => {
+      console.log('called');
       if (node.id === id) {
         node.subTree.push(newValue);
-        setTree([...tree]);
         return true;
       }
       if (Array.isArray(node.subTree)) {
@@ -44,14 +45,18 @@ const Folder = () => {
       }
       return false;
     });
+    setTree([...tree]);
+    return;
   };
 
   useEffect(() => {
     const filterFolders = (nodes) => {
       nodes.map((node) => {
         if (node.type === 'folder') {
-          opts.push(node)
-          setOpts(opts)
+          if (opts.indexOf(node) < 0) {
+            opts.push(node)
+            setOpts(opts)
+          }
         }
         if (Array.isArray(node.subTree)) {
           filterFolders(node.subTree)
@@ -62,7 +67,7 @@ const Folder = () => {
     };
 
     filterFolders(tree);
-  }, [opts])
+  }, [tree])
 
 
   return (

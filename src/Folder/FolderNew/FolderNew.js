@@ -10,17 +10,29 @@ import Name from './Forms/Name';
 
 const FolderNew = (props) => {
   const { tree, folders, branches, insertBranch, countId } = props;
+  console.log(branches);
   const [open, setOpen] = useState(false)
   const [branch, setBranch] = useState({
-    type: 'folder',
+    id: '',
     label: '',
+    type: 'folder',
     extension: '',
-    id: (branches + 1).toString(),
+    subTree: [],
   });
+
   const [parentFolder, setParentFolder] = useState('');
 
   const handleSubmit = () => {
-    insertBranch(tree, parentFolder, branch);
+    branch.id = branches.toString();
+
+    if (branch.type === 'file') {
+      delete branch.subTree;
+      insertBranch(tree, parentFolder, branch);
+    }
+    if (branch.type === 'folder') {
+      delete branch.extension;
+      insertBranch(tree, parentFolder, branch);
+    }
     countId();
   }
 
