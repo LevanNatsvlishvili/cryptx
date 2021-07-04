@@ -10,7 +10,6 @@ import Name from './Forms/Name';
 
 const FolderNew = (props) => {
   const { tree, folders, branches, insertBranch, countId } = props;
-  console.log(branches);
   const [open, setOpen] = useState(false)
   const [branch, setBranch] = useState({
     id: '',
@@ -24,13 +23,13 @@ const FolderNew = (props) => {
 
   const handleSubmit = () => {
     branch.id = branches.toString();
-
     if (branch.type === 'file') {
       delete branch.subTree;
       insertBranch(tree, parentFolder, branch);
     }
     if (branch.type === 'folder') {
       delete branch.extension;
+      branch.subTree = [];
       insertBranch(tree, parentFolder, branch);
     }
     countId();
@@ -69,7 +68,6 @@ const FolderNew = (props) => {
         </Grid>
         <Grid item xs={6}>
           <Button onClick={handleModal} variant='outlined' color='primary' >Close</Button>
-
         </Grid>
       </Grid>
     </Modal>

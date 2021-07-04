@@ -28,14 +28,12 @@ const Folder = () => {
 
   const countId = () => {
     setBranches(branches + 1);
-    console.log(branches);
   }
 
 
 
   const insertBranch = (nodes, id, newValue) => {
     if (Array.isArray(nodes)) nodes.map((node) => {
-      console.log('called');
       if (node.id === id) {
         node.subTree.push(newValue);
         return true;
